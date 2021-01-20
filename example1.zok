@@ -1,0 +1,33 @@
+
+struct Location {
+	field lat
+	field lon
+	bool north
+	bool east
+}
+
+def abs_diff(field a, field b) -> field:
+	return if a > b then a - b else b - a fi
+
+// location_dist returns a rough approximate of the distance between locations:
+// the longest distance in a cardinal direction. Approximating cartesian
+// distance more closely requires more computation.
+def location_dist(Location l, Location r) -> field:
+	field lat_diff = abs_diff(l.lat, r.lat)
+	field lon_diff = abs_diff(l.lon, r.lon)
+	return if lat_diff > lon_diff then lat_diff else lon_diff fi
+
+def main(private Location my_loc):
+	field max_lat = 90000000
+	field max_lon = 180000000
+	field max_dist = 10
+
+	assert(my_loc.lat <= max_lat && my_loc.lon <= max_lon)
+
+	// Ideally this will come from a table for a more repudiable location.
+	// For now, a place of past enlightenment.
+	Location poi = Location{lat: 36984864, lon: 122157388, north: true, east: false}
+
+	field dist = location_dist(my_loc, poi)
+	assert(dist < max_dist)
+	return

@@ -1,0 +1,3 @@
+# snarkhunt
+
+Hunting the SNARK
